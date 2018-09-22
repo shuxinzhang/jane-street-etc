@@ -210,9 +210,9 @@ def main():
             dm_total = 0
             dl_total = 0
             for name,amount in stock_list.items():
-                if dm and dm[name]!=None:
+                if dm and dm[name] and dm[name]!=None:
                     dm_total = dm_total + amount * dm[name][0]
-                if dl and dl[name]!=None:
+                if dl and dl[name] and dl[name]!=None:
                     dl_total = dl_total + amount * dl[name][0]
             if (xlk_dict and xlk_dict['offer'] and dm_total > 10*xlk_dict['offer'][0]):
                 for offer in xlk_dict['offer'][1]:
