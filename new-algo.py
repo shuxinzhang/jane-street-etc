@@ -144,7 +144,7 @@ def get_highest_bid_for(feed,symbol,amount,direction):
             remaining_amount = amount
             while remaining_amount > 0 and i < len(all_trades):
                 temp = amount - all_trades[i][1]
-                print("REMAINING="+remaining_amount)
+                print("REMAINING="+str(remaining_amount))
                 if (temp < 0):
                     total_price = total_price + all_trades[i][0] * remaining_amount
                     total_amount = total_amount + remaining_amount
