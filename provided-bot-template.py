@@ -68,8 +68,8 @@ def sell(exchange, symbol, price, size):
 
 def main():
     current_bond = 0
-    buy_price = 1000
-    sell_price = 1001
+    buy_price = 999
+    sell_price = 1002
     exchange = connect()
     write_to_exchange(exchange, {"type": "hello", "team": team_name.upper()})
     hello_from_exchange = read_from_exchange(exchange)

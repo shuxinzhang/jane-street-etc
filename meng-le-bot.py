@@ -64,6 +64,11 @@ def sell(exchange, symbol, price, size):
     time.sleep(1)
     return sell_res
 
+def fair_value(exchange, symbol):
+    feed = exchange.readline()
+    if (feed['type']=='book'):
+        if (feed['symbol']==symbol):
+	    
 # ~~~~~============== MAIN LOOP ==============~~~~~
 
 def main():

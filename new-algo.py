@@ -48,7 +48,7 @@ def buy(exchange, symbol, price, size):
     write_to_exchange(exchange, {"type":"add","order_id":int(timeid),"symbol":symbol,"dir":"BUY","price":price,"size":size})
     buy_res = read_from_exchange(exchange)
     if buy_res['type']=="ack":
-        print("buy order for", symbol, "under price", price, "and size", size " acknowledged.")
+        print("buy order for", symbol, "under price", price, "and size", size, " acknowledged.")
 	#bond_amount = bond_amount + size
     time.sleep(1)
     return buy_res
@@ -111,19 +111,19 @@ def get_lowest_offer_for(feed,symbol,amount,direction):
             all_trades.sort(key=lambda offer:offer[0])
         i = 0
         remaining_amount = amount
-        while remaining_amount > 0 && i < len(all_trades):
+        while remaining_amount > 0 and i < len(all_trades):
             temp = amount - all_trades[i][1]
             if (temp < 0):
                 total_price = total_price + all_trades[i][0] * remaining_amount
-                total_amount = total_amount += remaining_amount
+                total_amount = total_amount + remaining_amount
                 dl.add([all_trades[i][0],remaining_amount])
                 remaining_amount = 0
             else:
                 total_price = total_price + all_trades[i][0] * all_trades[i][1]
-                total_amount = total_amount += all_trades[i][1]
+                total_amount = total_amount + all_trades[i][1]
                 dl.add(all_trades[i])
                 remaining_amount = remaining_amount - all_trades[i][1]
-            i++
+            i=i+1
         if (remaining_amount > 0):
             return (0, None)
         else:
@@ -144,15 +144,15 @@ def get_highest_bid_for(feed,symbol,amount,direction):
             temp = amount - all_trades[i][1]
             if (temp < 0):
                 total_price = total_price + all_trades[i][0] * remaining_amount
-                total_amount = total_amount += remaining_amount
+                total_amount = total_amount + remaining_amount
                 dm.add([all_trades[i][0],remaining_amount])
                 remaining_amount = 0
             else:
                 total_price = total_price + all_trades[i][0] * all_trades[i][1]
-                total_amount = total_amount += all_trades[i][1]
+                total_amount = total_amount + all_trades[i][1]
                 dm.add(all_trades[i])
                 remaining_amount = remaining_amount - all_trades[i][1]
-            i++
+            i=i+1
         if (remaining_amount > 0):
             return (0,None)
         else:

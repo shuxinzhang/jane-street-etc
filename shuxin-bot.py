@@ -23,7 +23,7 @@ test_mode = True
 # 0 is prod-like
 # 1 is slower
 # 2 is empty
-test_exchange_index=0
+test_exchange_index=1
 prod_exchange_hostname="production"
 port=25000 + (test_exchange_index if test_mode else 0)
 exchange_hostname = "test-exch-" + team_name if test_mode else prod_exchange_hostname
@@ -48,7 +48,7 @@ def buy(exchange, symbol, price, size):
     write_to_exchange(exchange, {"type":"add","order_id":int(timeid),"symbol":symbol,"dir":"BUY","price":price,"size":size})
     buy_res = read_from_exchange(exchange)
     if buy_res['type']=="ack":
-        print("buy order for", symbol, "under price", price, "and size", size " acknowledged.")
+        print("buy order for", symbol, "under price", price, "and size", size, " acknowledged.")
 	#bond_amount = bond_amount + size
     time.sleep(1)
     return buy_res
@@ -115,6 +115,7 @@ def main():
     while(True):
         feed = read_from_exchange(exchange)
 #        feed = json.loads(feed)
+	print(str(feed))
         bz_buy_max = get_max(feed,'BABZ',"buy")
         bz_sell_min = get_min(feed,'BABZ',"sell")
         ba_buy_max = get_max(feed,'BABA',"buy")
