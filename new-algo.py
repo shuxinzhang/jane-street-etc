@@ -214,10 +214,10 @@ def main():
                     dm_total = dm_total + amount * dm[name][0]
                 if name in dm and dl[name]!=None:
                     dl_total = dl_total + amount * dl[name][0]
+            timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
             if ('offer' in xlk_dict and dm_total > 10*xlk_dict['offer'][0]):
                 for offer in xlk_dict['offer'][1]:
                     buy(exchange,"XLK",offer[0],offer[1])
-
                 write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"XLK","dir":"SELL","size":10})
                 print("Conversion:"+str(read_from_exchange(exchange)))
                 for name, bids in dm.items():
