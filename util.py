@@ -5,8 +5,8 @@ import time
 
 # returns the exchange instance of trading
 def connect(socket_name = "production", socket_port = 25000):
-	s = socket.connect(socket.AF_INET,socket.SOCK_STREAM)
-	s.connect((socket_name,socket_portk))
+	so = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s = so.connect((socket_name,socket_port))
 	return s.makefile('rw',1)
 
 def write(exchange, obj_to_write):
@@ -19,7 +19,7 @@ def read(exchange):
 def hello(exchange):
 	write(exchange,{"type":"hello","team":"XiaoKeAi"})
 	res = read(exchange)
-	print('hello from exchange replied', res, file=sys.stderr)
+	print('hello from exchange replied', res)
 	return res
 
 def buy(exchange, symbol, price, size):
