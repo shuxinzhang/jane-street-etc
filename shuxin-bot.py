@@ -78,46 +78,68 @@ def get_running_avg(feed,symbol,direction):
 	    if amt_sum == 0:
 		  return 0
 	    runnig_avg = total * 1.0/amt_sum
-    return runnig_avg
+    return 
+
+def get_max(feed,symbol,direction):
+    if (feed['type']=='book'):
+        print(feed)
+        if (feed['symbol']==symbol):
+            max = 0
+            for trade in feed[direction]:
+                if trade[0] > max:
+                    max = trade[0]
+    return max
+
+def get_min(feed,symbol,direction):
+    if (feed['type']=='book'):
+        print(feed)
+        if (feed['symbol']==symbol):
+            min = 10000000000
+            for trade in feed[direction]:
+                if trade[0] < min:
+                    min = trade[0]
+    return min
 
 def main():
     current_bond = 0
     buy_price = 1000
     sell_price = 1001
     exchange = connect()
-    babz_buy_avg = 0
-    babz_sell_avg = 0
-    baba_buy_avg = 0
-    baba_sell_avg = 0
+    babz_buy_max = 0
+    babz_sell_min = 0
+    baba_buy_max = 0
+    baba_sell_min = 0
     write_to_exchange(exchange, {"type": "hello", "team": team_name.upper()})
     hello_from_exchange = read_from_exchange(exchange)
     print("The exchange replied:", hello_from_exchange, file=sys.stderr)
     while(True):
         feed = exchange.readline()
         feed = json.loads(feed)
-        bz_buy_avg = get_running_avg(feed,'BABZ',"buy")
-        bz_sell_avg = get_running_avg(feed,'BABZ',"sell")
-        ba_buy_avg = get_running_avg(feed,'BABA',"buy")
-        ba_sell_avg = get_running_avg(feed,'BABA',"sell")
-        if (bz_buy_avg != 0):
-            babz_buy_avg = bz_buy_avg
-        if (bz_sell_avg != 0):
-            babz_sell_avg = bz_sell_avg
-        if (ba_buy_avg != 0):
-            baba_buy_avg = ba_buy_avg
-        if (ba_sell_avg != 0):
-            baba_sell_avg = ba_sell_avg
-	    print('zb,zs,ab,as',babz_buy_avg,babz_sell_avg,baba_buy_avg,baba_sell_avg)
-        if (babz_buy_avg > baba_sell_avg + 10):
-            buy(exchange,"BABA",baba_sell_avg,1)
+        bz_buy_max = get_max(feed,'BABZ',"buy")
+        bz_sell_min = get_min(feed,'BABZ',"sell")
+        ba_buy_max = get_max(feed,'BABA',"buy")
+        ba_sell_min = get_min(feed,'BABA',"sell")
+        if (bz_buy_max != 0 && ):
+            babz_buy_max = bz_buy_max
+        if (bz_sell_min != 10000000000):
+            babz_sell_min = bz_sell_min
+        if (ba_buy_max != 0):
+            baba_buy_max = ba_buy_max
+        if (ba_sell_min != 10000000000):
+            baba_sell_min = ba_sell_min
+	    print('zb,zs,ab,as',babz_buy_max,babz_sell_min,baba_buy_max,baba_sell_min)
+        if (babz_buy_max > baba_sell_min + 12):
+            buy(exchange,"BABA",baba_sell_min+1,1)
             timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
             write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"BABZ","dir":"BUY","size":1})
-            sell(exchange,"BABZ",babz_buy_avg,1)
-        if (baba_buy_avg > babz_sell_avg + 10):
-            buy(exchange,"BABZ",babz_sell_avg,1)
+            print("Conversion:"+read_from_exchange(exchange))
+            sell(exchange,"BABZ",babz_buy_max-1,1)
+        if (baba_buy_max > babz_sell_min + 12):
+            buy(exchange,"BABZ",babz_sell_min+1,1)
             timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
             write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"BABA","dir":"BUY","size":1})
-            sell(exchange,"BABZ",baba_buy_avg,1)
+            print("Conversion:"+read_from_exchange(exchange))
+            sell(exchange,"BABZ",baba_buy_max-1,1)
     
 
 if __name__ == "__main__":
