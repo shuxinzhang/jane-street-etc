@@ -220,11 +220,11 @@ def main():
 
                 write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"XLK","dir":"SELL","size":10})
                 print("Conversion:"+str(read_from_exchange(exchange)))
-                for name, bids in dm.items:
+                for name, bids in dm.items():
                     for bid in bids[1]:
                         sell(exchange,name,bid[0],bid[1])
             if ('bid' in xlk_dict and dl_total < 10*xlk_dict['bid'][0]):
-                for name, bids in dm.items:
+                for name, bids in dm.items():
                     for bid in bids[1]:
                         buy(exchange,name,bid[0],bid[1]) 
                 write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"XLK","dir":"BUY","size":10})
