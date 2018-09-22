@@ -181,12 +181,12 @@ def main():
     write_to_exchange(exchange, {"type": "hello", "team": team_name.upper()})
     hello_from_exchange = read_from_exchange(exchange)
     print("The exchange replied:", hello_from_exchange, file=sys.stderr)
+    bid_dict = {}
+    offer_dict = {}
+    stock_list = {'BOND':3,"AAPL":2,"MSFT":3,"GOOG":2}
     while(True):
         feed = read_from_exchange(exchange)
         print(feed)
-        stock_list = {'BOND':3,"AAPL":2,"MSFT":3,"GOOG":2}
-        bid_dict = {}
-        offer_dict = {}
         for name,amount in stock_list.items():
             if (get_highest_bid_for(feed,name,amount,"buy")!=None):
                 bid_dict[name]=get_highest_bid_for(feed,name,amount,"buy")
