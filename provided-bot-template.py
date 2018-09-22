@@ -43,15 +43,23 @@ def read_from_exchange(exchange):
 
 def buy(exchange, symbol, price, size):
     timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
+    print("Buying an order")
     write_to_exchange(exchange, {"type":"add","order_id":int(timeid),"symbol":symbol,"dir":"BUY","price":price,"size":size})
+    buy_res = read_from_exchange(exchange)
+    if buy_res['type']="ack":
+        print("sell order acknowledged.")
     sleep(1)
-    return read_from_exchange(exchange)
+    return buy_res
 
 def sell(exchange, symbol, price, size):
     timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
+    print("Selling")
     write_to_exchange(exchange, {"type":"add","order_id":int(timeid),"symbol":symbol,"dir":"SELL","price":price,"size":size})
+    sell_res = read_from_exchange(exchange)
+    if sell_res['type']="ack":
+        print("sell order acknowledged.")
     sleep(1)
-    return read_from_exchange(exchange)
+    return sell_res
 
 # ~~~~~============== MAIN LOOP ==============~~~~~
 
@@ -61,10 +69,10 @@ def main():
     hello_from_exchange = read_from_exchange(exchange)
     print("The exchange replied:", hello_from_exchange, file=sys.stderr)
     while(True):
-        buy_reply = buy(exchange,"BOND",999,10)
-        print(buy_reply)
-        sell_reply sell(exchange,"BOND",1001,10)
-        print(sell_reply)
+        buy_reply = buy(exchange,"BOND",998,10)
+        print("buy="+buy_reply)
+        sell_reply sell(exchange,"BOND",1000,10)
+        print("sell="sell_reply)
     # A common mistake people make is to call write_to_exchange() > 1
     # time for every read_from_exchange() response.
     # Since many write messages generate marketdata, this will cause an
