@@ -44,18 +44,18 @@ def read_from_exchange(exchange):
 
 def buy(exchange, symbol, price, size):
     timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
-    print("Buying an order")
+    print("buy order for", symbol, "under price", price, "and size", size)
     write_to_exchange(exchange, {"type":"add","order_id":int(timeid),"symbol":symbol,"dir":"BUY","price":price,"size":size})
     buy_res = read_from_exchange(exchange)
     if buy_res['type']=="ack":
-        print("buy order acknowledged.")
+        print("buy order for", symbol, "under price", price, "and size", size " acknowledged.")
 	#bond_amount = bond_amount + size
     time.sleep(1)
     return buy_res
 
 def sell(exchange, symbol, price, size):
     timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
-    print("Selling")
+    print("sell order for", symbol, "under price", price, "and size", size)
     write_to_exchange(exchange, {"type":"add","order_id":int(timeid),"symbol":symbol,"dir":"SELL","price":price,"size":size})
     sell_res = read_from_exchange(exchange)
     if sell_res['type']=="ack":
