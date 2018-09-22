@@ -188,6 +188,7 @@ def main():
     offer_dict = {}
     stock_list = {'BOND':3,"AAPL":2,"MSFT":3,"GOOG":2}
     xlk_dict = {}
+    i = 0 
     while(True):
         feed = read_from_exchange(exchange)
         print(feed)
@@ -202,32 +203,36 @@ def main():
         if (get_lowest_offer_for(feed,"XLK",10,"sell")!=None):
             xlk_dict['offer']=get_lowest_offer_for(feed,"XLK",10,"sell")
         print("dictionaries = ", str(bid_dict),str(offer_dict),str(xlk_dict))
-#        feed = json.loads(feed)
-     #    bz_buy_max = get_max(feed,'BABZ',"buy")
-     #    bz_sell_min = get_min(feed,'BABZ',"sell")
-     #    ba_buy_max = get_max(feed,'BABA',"buy")
-     #    ba_sell_min = get_min(feed,'BABA',"sell")
-     #    if (bz_buy_max != 0):
-     #        babz_buy_max = bz_buy_max
-     #    if (bz_sell_min != 10000000000):
-     #        babz_sell_min = bz_sell_min
-     #    if (ba_buy_max != 0):
-     #        baba_buy_max = ba_buy_max
-     #    if (ba_sell_min != 10000000000):
-     #        baba_sell_min = ba_sell_min
-	    # print('zb,zs,ab,as',babz_buy_max,babz_sell_min,baba_buy_max,baba_sell_min)
-     #    if (babz_buy_max > baba_sell_min + 12):
-     #        buy(exchange,"BABA",baba_sell_min+1,1)
-     #        timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
-     #        write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"BABA","dir":"SELL","size":1})
-     #        print("Conversion:"+str(read_from_exchange(exchange)))
-     #        sell(exchange,"BABZ",babz_buy_max-1,1)
-     #    if (baba_buy_max > babz_sell_min + 12):
-     #        buy(exchange,"BABZ",babz_sell_min+1,1)
-     #        timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
-     #        write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"BABA","dir":"BUY","size":1})
-     #        print("Conversion:"+str(read_from_exchange(exchange)))
-     #        sell(exchange,"BABA",baba_buy_max-1,1)
+        i = i + 1;
+        sleep(1)
+        if (i > 500):
+            dm = bid_dict
+            dl = offer_dict
+            dm_total = 0
+            dl_total = 0
+            for name,amount in stock_list.items():
+                if dm[name]!=None:
+                    dm_total = dm_total + amount * dm[name][0]
+                if dl[name]!=None:
+                    dl_total = dl_total + amount * dl[name][0]
+            if (dm_total > 10*xlk_dict['offer'][0]):
+                for offer in xlk_dict['offer'][1]:
+                    buy(exchange,"XLK",offer[0],offer[1])
+
+                write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"XLK","dir":"SELL","size":10})
+                print("Conversion:"+str(read_from_exchange(exchange)))
+                for name, bids in dm.items:
+                    for bid in bids[1]:
+                        sell(exchange,name,bid[0],bid[1])
+            if (dl_total < 10*xlk_dict['bid'][0]):
+                for name, bids in dm.items:
+                    for bid in bids[1]:
+                        buy(exchange,name,bid[0],bid[1]) 
+                write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"XLK","dir":"BUY","size":10})
+                print("Conversion:"+str(read_from_exchange(exchange)))  
+                for offer in xlk_dict['offer'][1]:
+                    sell(exchange,"XLK",offer[0],offer[1])       
+
 
 if __name__ == "__main__":
     main()
