@@ -41,6 +41,17 @@ def write_to_exchange(exchange, obj):
 def read_from_exchange(exchange):
     return json.loads(exchange.readline())
 
+def buy(exchange, symbol, price, size):
+    timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
+    write_to_exchange(exchange, {"type":"add","order_id":int(timeid),"symbol":symbol,"dir":"BUY","price":price,"size":size})
+    sleep(1)
+    return read_from_exchange(exchange)
+
+def sell(exchange, symbol, price, size):
+    timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
+    write_to_exchange(exchange, {"type":"add","order_id":int(timeid),"symbol":symbol,"dir":"SELL","price":price,"size":size})
+    sleep(1)
+    return read_from_exchange(exchange)
 
 # ~~~~~============== MAIN LOOP ==============~~~~~
 
@@ -48,11 +59,17 @@ def main():
     exchange = connect()
     write_to_exchange(exchange, {"type": "hello", "team": team_name.upper()})
     hello_from_exchange = read_from_exchange(exchange)
+    print("The exchange replied:", hello_from_exchange, file=sys.stderr)
+    while(True):
+        buy_reply = buy(exchange,"BOND",999,10)
+        print(buy_reply)
+        sell_reply sell(exchange,"BOND",1001,10)
+        print(sell_reply)
     # A common mistake people make is to call write_to_exchange() > 1
     # time for every read_from_exchange() response.
     # Since many write messages generate marketdata, this will cause an
     # exponential explosion in pending messages. Please, don't do that!
-    print("The exchange replied:", hello_from_exchange, file=sys.stderr)
+    
 
 if __name__ == "__main__":
     main()
