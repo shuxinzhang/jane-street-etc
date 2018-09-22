@@ -81,20 +81,22 @@ def get_running_avg(feed,symbol,direction):
     return 
 
 def get_max(feed,symbol,direction):
+    maxV = 0
     if (feed['type']=='book'):
         print(feed)
         if (feed['symbol']==symbol):
-            maxV = 0
+            
             for trade in feed[direction]:
                 if trade[0] > max:
                     maxV = trade[0]
     return maxV
 
 def get_min(feed,symbol,direction):
+    minV = 10000000000
     if (feed['type']=='book'):
         print(feed)
         if (feed['symbol']==symbol):
-            minV = 10000000000
+            
             for trade in feed[direction]:
                 if trade[0] < min:
                     minV = trade[0]
