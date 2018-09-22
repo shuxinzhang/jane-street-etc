@@ -161,9 +161,9 @@ def get_highest_bid_for(feed,symbol,amount,direction):
 def price_for_a_unit_for_4(feed):
     stock_list = {'BOND':3,"AAPL":2,"MSFT":3,"GOOG":2}
     for name,amount in stock_list.items():
-        if (get_highest_bid_for(feed,name,amount,"BUY")!=None):
+        if (get_highest_bid_for(feed,name,amount,"buy")!=None):
             stock_amt[name]['bid']=get_highest_bid_for(feed,name,amount,"BUY")
-        if (get_lowest_offer_for(feed,name,amount,"SELL")!=None):
+        if (get_lowest_offer_for(feed,name,amount,"sell")!=None):
             stock_amt[name]['offer']=get_lowest_offer_for(feed,name,amount,"SELL")
 
 
