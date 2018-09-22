@@ -110,10 +110,12 @@ def main():
 	    print('zb,zs,ab,as',babz_buy_avg,babz_sell_avg,baba_buy_avg,baba_sell_avg)
         if (babz_buy_avg > baba_sell_avg + 10):
             buy(exchange,"BABA",baba_sell_avg,1)
+            timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
             write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"BABZ","dir":"BUY","size":1})
             sell(exchange,"BABZ",babz_buy_avg,1)
         if (baba_buy_avg > babz_sell_avg + 10):
             buy(exchange,"BABZ",babz_sell_avg,1)
+            timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
             write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"BABA","dir":"BUY","size":1})
             sell(exchange,"BABZ",baba_buy_avg,1)
     
