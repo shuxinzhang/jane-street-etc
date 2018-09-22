@@ -184,6 +184,7 @@ def main():
     bid_dict = {}
     offer_dict = {}
     stock_list = {'BOND':3,"AAPL":2,"MSFT":3,"GOOG":2}
+    xlk_dict = {}
     while(True):
         feed = read_from_exchange(exchange)
         print(feed)
@@ -192,7 +193,12 @@ def main():
                 bid_dict[name]=get_highest_bid_for(feed,name,amount,"buy")
             if (get_lowest_offer_for(feed,name,amount,"sell")!=None):
                 offer_dict[name]=get_lowest_offer_for(feed,name,amount,"sell")
-        print(str(bid_dict),str(offer_dict))
+        
+        if (get_highest_bid_for(feed,"XLK",10,"buy")!=None):
+            xlk_dict['bid']=get_highest_bid_for(feed,"XLK",10,"buy")
+        if (get_lowest_offer_for(feed,name,amount,"sell")!=None):
+            xlk_dict['offer']=get_lowest_offer_for(feed,"XLK",10,"sell")
+        print("dictionaries = ", str(bid_dict),str(offer_dict),str(xlk_dict))
 #        feed = json.loads(feed)
      #    bz_buy_max = get_max(feed,'BABZ',"buy")
      #    bz_sell_min = get_min(feed,'BABZ',"sell")
