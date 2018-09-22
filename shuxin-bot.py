@@ -76,7 +76,7 @@ def get_running_avg(feed,symbol,direction):
                 amt_sum = trade[1] + amt_sum
                 total = total + trade[1] * trade[0]
 	    if amt_sum == 0:
-		return 0
+		  return 0
 	    runnig_avg = total * 1.0/amt_sum
     return runnig_avg
 
@@ -107,33 +107,11 @@ def main():
             baba_buy_avg = ba_buy_avg
         if (ba_sell_avg != 0):
             baba_sell_avg = ba_sell_avg
-	print('zb,zs,ab,as',babz_buy_avg,babz_sell_avg,baba_buy_avg,baba_sell_avg)
-
+	    print('zb,zs,ab,as',babz_buy_avg,babz_sell_avg,baba_buy_avg,baba_sell_avg)
         if (babz_sell_avg < baba_sell_avg):
             buy(exchange,"BABA",babz_sell_avg,1)
-        # if (babz_sell_avg > baba_sell_avg):
-        #     buy(exchange,"BABA",babz_sell_avg,1)
         if (babz_buy_avg > baba_buy_avg):
             sell(exchange,"BABA",babz_buy_avg,1)
-        # if (babz_buy_avg > baba_buy_avg):
-        #     sell(exchange,"BABA",babz_buy_avg,1)
- #        buy_reply = buy(exchange,"BOND",buy_price,10)
-	# if (buy_reply['type']=='ack'):
-	# 	current_bond = current_bond+10
- #        sell_reply = sell(exchange,"BOND",sell_price,10)
- #        if (sell_reply['type']=='ack'):
- #                current_bond = current_bond-10
-	# print('current bond=' + str(current_bond))
-	# if current_bond <= -50:
-	# 	buy_price = buy_price + 2
-	# 	sell_price = sell_price + 2
-	# if current_bond >= 50:
-	# 	buy_price =  buy_price - 2
-	# 	sell_price = sell_price - 2 
-    # A common mistake people make is to call write_to_exchange() > 1
-    # time for every read_from_exchange() response.
-    # Since many write messages generate marketdata, this will cause an
-    # exponential explosion in pending messages. Please, don't do that!
     
 
 if __name__ == "__main__":
