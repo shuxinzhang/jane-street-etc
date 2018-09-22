@@ -109,25 +109,25 @@ def get_lowest_offer_for(feed,symbol,amount,direction):
         if (feed['symbol']==symbol):          
             all_trades = feed[direction]
             all_trades.sort(key=lambda offer:offer[0])
-        i = 0
-        remaining_amount = amount
-        while remaining_amount > 0 and i < len(all_trades):
-            temp = amount - all_trades[i][1]
-            if (temp < 0):
-                total_price = total_price + all_trades[i][0] * remaining_amount
-                total_amount = total_amount + remaining_amount
-                dl.add([all_trades[i][0],remaining_amount])
-                remaining_amount = 0
+            i = 0
+            remaining_amount = amount
+            while remaining_amount > 0 and i < len(all_trades):
+                temp = amount - all_trades[i][1]
+                if (temp < 0):
+                    total_price = total_price + all_trades[i][0] * remaining_amount
+                    total_amount = total_amount + remaining_amount
+                    dl.add([all_trades[i][0],remaining_amount])
+                    remaining_amount = 0
+                else:
+                    total_price = total_price + all_trades[i][0] * all_trades[i][1]
+                    total_amount = total_amount + all_trades[i][1]
+                    dl.add(all_trades[i])
+                    remaining_amount = remaining_amount - all_trades[i][1]
+                i=i+1
+            if (remaining_amount > 0):
+                return None
             else:
-                total_price = total_price + all_trades[i][0] * all_trades[i][1]
-                total_amount = total_amount + all_trades[i][1]
-                dl.add(all_trades[i])
-                remaining_amount = remaining_amount - all_trades[i][1]
-            i=i+1
-        if (remaining_amount > 0):
-            return (0, None)
-        else:
-            return (total_price * 1.0/total_amount, dl)
+                return (total_price * 1.0/total_amount, dl)
 
 def get_highest_bid_for(feed,symbol,amount,direction):
     dm = []
@@ -138,25 +138,25 @@ def get_highest_bid_for(feed,symbol,amount,direction):
         if (feed['symbol']==symbol):          
             all_trades = feed[direction]
             all_trades.sort(reverse=True,key=lambda offer:offer[0])
-        i = 0
-        remaining_amount = amount
-        while remaining_amount > 0 and i < len(all_trades):
-            temp = amount - all_trades[i][1]
-            if (temp < 0):
-                total_price = total_price + all_trades[i][0] * remaining_amount
-                total_amount = total_amount + remaining_amount
-                dm.add([all_trades[i][0],remaining_amount])
-                remaining_amount = 0
+            i = 0
+            remaining_amount = amount
+            while remaining_amount > 0 and i < len(all_trades):
+                temp = amount - all_trades[i][1]
+                if (temp < 0):
+                    total_price = total_price + all_trades[i][0] * remaining_amount
+                    total_amount = total_amount + remaining_amount
+                    dm.add([all_trades[i][0],remaining_amount])
+                    remaining_amount = 0
+                else:
+                    total_price = total_price + all_trades[i][0] * all_trades[i][1]
+                    total_amount = total_amount + all_trades[i][1]
+                    dm.add(all_trades[i])
+                    remaining_amount = remaining_amount - all_trades[i][1]
+                i=i+1
+            if (remaining_amount > 0):
+                return None
             else:
-                total_price = total_price + all_trades[i][0] * all_trades[i][1]
-                total_amount = total_amount + all_trades[i][1]
-                dm.add(all_trades[i])
-                remaining_amount = remaining_amount - all_trades[i][1]
-            i=i+1
-        if (remaining_amount > 0):
-            return (0,None)
-        else:
-            return (total_price * 1.0/total_amount,dm)
+                return (total_price * 1.0/total_amount,dm)
 
 def price_for_a_unit_for_4(feed,stock_amt):
     stock_list = {'BOND':3,"AAPL":2,"MSFT":3,"GOOG":2}
