@@ -210,11 +210,11 @@ def main():
             dm_total = 0
             dl_total = 0
             for name,amount in stock_list.items():
-                if dm[name]!=None:
+                if dm and dm[name]!=None:
                     dm_total = dm_total + amount * dm[name][0]
-                if dl[name]!=None:
+                if dl and dl[name]!=None:
                     dl_total = dl_total + amount * dl[name][0]
-            if (dm_total > 10*xlk_dict['offer'][0]):
+            if (xlk_dict and xlk_dict['offer'] and dm_total > 10*xlk_dict['offer'][0]):
                 for offer in xlk_dict['offer'][1]:
                     buy(exchange,"XLK",offer[0],offer[1])
 
@@ -223,7 +223,7 @@ def main():
                 for name, bids in dm.items:
                     for bid in bids[1]:
                         sell(exchange,name,bid[0],bid[1])
-            if (dl_total < 10*xlk_dict['bid'][0]):
+            if (xlk_dict and xlk_dict['bid'] and dl_total < 10*xlk_dict['bid'][0]):
                 for name, bids in dm.items:
                     for bid in bids[1]:
                         buy(exchange,name,bid[0],bid[1]) 
