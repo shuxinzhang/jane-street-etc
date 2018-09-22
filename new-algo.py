@@ -116,12 +116,12 @@ def get_lowest_offer_for(feed,symbol,amount,direction):
                 if (temp < 0):
                     total_price = total_price + all_trades[i][0] * remaining_amount
                     total_amount = total_amount + remaining_amount
-                    dl.add([all_trades[i][0],remaining_amount])
+                    dl.append([all_trades[i][0],remaining_amount])
                     remaining_amount = 0
                 else:
                     total_price = total_price + all_trades[i][0] * all_trades[i][1]
                     total_amount = total_amount + all_trades[i][1]
-                    dl.add(all_trades[i])
+                    dl.append(all_trades[i])
                     remaining_amount = remaining_amount - all_trades[i][1]
                 i=i+1
             if (remaining_amount > 0):
