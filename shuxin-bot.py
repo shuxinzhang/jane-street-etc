@@ -113,9 +113,10 @@ def main():
     write_to_exchange(exchange, {"type": "hello", "team": team_name.upper()})
     hello_from_exchange = read_from_exchange(exchange)
     print("The exchange replied:", hello_from_exchange, file=sys.stderr)
+    '''
     while(True):
         feed = read_from_exchange()
-       # feed = json.loads(feed)
+        feed = json.loads(feed)
         bz_buy_max = get_max(feed,'BABZ',"buy")
         bz_sell_min = get_min(feed,'BABZ',"sell")
         ba_buy_max = get_max(feed,'BABA',"buy")
@@ -141,7 +142,7 @@ def main():
             write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"BABA","dir":"BUY","size":1})
             print("Conversion:"+read_from_exchange(exchange))
             sell(exchange,"BABZ",baba_buy_max-1,1)
-    
+    '''
 
 if __name__ == "__main__":
     main()

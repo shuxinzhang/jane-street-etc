@@ -76,18 +76,11 @@ def main():
     print("The exchange replied:", hello_from_exchange, file=sys.stderr)
     while(True):
         buy_reply = buy(exchange,"BOND",buy_price,10)
-    if (buy_reply['type']=='ack'):
-        current_bond = current_bond+10
+        if (buy_reply['type']=='ack'):
+            current_bond = current_bond+10
         sell_reply = sell(exchange,"BOND",sell_price,10)
         if (sell_reply['type']=='ack'):
-                current_bond = current_bond-10
-    print('current bond=' + str(current_bond))
-    if current_bond <= -50:
-        buy_price = buy_price + 2
-        sell_price = sell_price + 2
-    if current_bond >= 50:
-        buy_price =  buy_price - 2
-        sell_price = sell_price - 2 
+            current_bond = current_bond-10
     # A common mistake people make is to call write_to_exchange() > 1
     # time for every read_from_exchange() response.
     # Since many write messages generate marketdata, this will cause an
