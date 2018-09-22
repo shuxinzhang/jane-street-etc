@@ -119,7 +119,7 @@ def main():
         bz_sell_min = get_min(feed,'BABZ',"sell")
         ba_buy_max = get_max(feed,'BABA',"buy")
         ba_sell_min = get_min(feed,'BABA',"sell")
-        if (bz_buy_max != 0 && ):
+        if (bz_buy_max != 0 ):
             babz_buy_max = bz_buy_max
         if (bz_sell_min != 10000000000):
             babz_sell_min = bz_sell_min
