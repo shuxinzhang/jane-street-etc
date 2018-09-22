@@ -131,7 +131,7 @@ def main():
         if (babz_buy_max > baba_sell_min + 12):
             buy(exchange,"BABA",baba_sell_min+1,1)
             timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
-            write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"BABZ","dir":"BUY","size":1})
+            write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"BABA","dir":"SELL","size":1})
             print("Conversion:"+str(read_from_exchange(exchange)))
             sell(exchange,"BABZ",babz_buy_max-1,1)
         if (baba_buy_max > babz_sell_min + 12):
@@ -139,7 +139,7 @@ def main():
             timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
             write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"BABA","dir":"BUY","size":1})
             print("Conversion:"+str(read_from_exchange(exchange)))
-            sell(exchange,"BABZ",baba_buy_max-1,1)
+            sell(exchange,"BABA",baba_buy_max-1,1)
 
 if __name__ == "__main__":
     main()
