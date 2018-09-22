@@ -96,7 +96,7 @@ def get_min(feed,symbol,direction):
  #       print(feed)
         if (feed['symbol']==symbol):          
             for trade in feed[direction]:
-                if trade[0] > minV:
+                if trade[0] < minV:
                     minV = trade[0]
     return minV
 
