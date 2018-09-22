@@ -84,21 +84,21 @@ def get_max(feed,symbol,direction):
     if (feed['type']=='book'):
         print(feed)
         if (feed['symbol']==symbol):
-            max = 0
+            maxV = 0
             for trade in feed[direction]:
                 if trade[0] > max:
-                    max = trade[0]
-    return max
+                    maxV = trade[0]
+    return maxV
 
 def get_min(feed,symbol,direction):
     if (feed['type']=='book'):
         print(feed)
         if (feed['symbol']==symbol):
-            min = 10000000000
+            minV = 10000000000
             for trade in feed[direction]:
                 if trade[0] < min:
-                    min = trade[0]
-    return min
+                    minV = trade[0]
+    return minV
 
 def main():
     current_bond = 0
