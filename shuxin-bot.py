@@ -68,7 +68,6 @@ def sell(exchange, symbol, price, size):
 def get_running_avg(feed,symbol,direction):
     runnig_avg = 0
     if (feed['type']=='book'):
-	    print(feed)
         if (feed['symbol']==symbol):
             amt_sum = 0
             total = 0
