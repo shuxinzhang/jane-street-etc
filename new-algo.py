@@ -160,12 +160,13 @@ def get_highest_bid_for(feed,symbol,amount,direction):
 
 def price_for_a_unit_for_4(feed):
     stock_list = {'BOND':3,"AAPL":2,"MSFT":3,"GOOG":2}
-    stock_amt = {'BOND':None,"AAPL":None,"MSFT":None,"GOOG":None}
+    bid_dict = {}
+    offer_dict = {}
     for name,amount in stock_list.items():
         if (get_highest_bid_for(feed,name,amount,"buy")!=None):
-            stock_amt[name]['bid']=get_highest_bid_for(feed,name,amount,"buy")
+            bid_dict[name]=get_highest_bid_for(feed,name,amount,"buy")
         if (get_lowest_offer_for(feed,name,amount,"sell")!=None):
-            stock_amt[name]['offer']=get_lowest_offer_for(feed,name,amount,"sell")
+            offer_dict[name]=get_lowest_offer_for(feed,name,amount,"sell")
 
 
 def main():
@@ -183,7 +184,15 @@ def main():
     while(True):
         feed = read_from_exchange(exchange)
         print(feed)
-        print(str(price_for_a_unit_for_4(feed)))
+        stock_list = {'BOND':3,"AAPL":2,"MSFT":3,"GOOG":2}
+        bid_dict = {}
+        offer_dict = {}
+        for name,amount in stock_list.items():
+            if (get_highest_bid_for(feed,name,amount,"buy")!=None):
+                bid_dict[name]=get_highest_bid_for(feed,name,amount,"buy")
+            if (get_lowest_offer_for(feed,name,amount,"sell")!=None):
+                offer_dict[name]=get_lowest_offer_for(feed,name,amount,"sell")
+        print(str(bid_dict),str(offer_dict))
 #        feed = json.loads(feed)
      #    bz_buy_max = get_max(feed,'BABZ',"buy")
      #    bz_sell_min = get_min(feed,'BABZ',"sell")
