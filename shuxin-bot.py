@@ -82,16 +82,28 @@ def main():
     buy_price = 1000
     sell_price = 1001
     exchange = connect()
+    babz_buy_avg = 0
+    babz_sell_avg = 0
+    baba_buy_avg = 0
+    baba_sell_avg = 0
     write_to_exchange(exchange, {"type": "hello", "team": team_name.upper()})
     hello_from_exchange = read_from_exchange(exchange)
     print("The exchange replied:", hello_from_exchange, file=sys.stderr)
     while(True):
         feed = exchange.readline()
         feed = json.loads(feed)
-        babz_buy_avg = get_running_avg(feed,'BABZ',"buy")
-        babz_sell_avg = get_running_avg(feed,'BABZ',"sell")
-        baba_buy_avg = get_running_avg(feed,'BABA',"buy")
-        baba_sell_avg = get_running_avg(feed,'BABA',"sell")
+        bz_buy_avg = get_running_avg(feed,'BABZ',"buy")
+        bz_sell_avg = get_running_avg(feed,'BABZ',"sell")
+        ba_buy_avg = get_running_avg(feed,'BABA',"buy")
+        ba_sell_avg = get_running_avg(feed,'BABA',"sell")
+        if (bz_buy_avg != 0):
+            babz_buy_avg = bz_buy_avg
+        if (bz_sell_avg != 0):
+            babz_sell_avg = bz_sell_avg
+        if (ba_buy_avg != 0):
+            baba_buy_avg = ba_buy_avg
+        if (ba_sell_avg != 0):
+            babz_sell_avg = ba_sell_avg
         if (babz_sell_avg < baba_sell_avg):
             sell(exchange,"BABA",baba_buy_avg,1)
         # if (babz_sell_avg > baba_sell_avg):
