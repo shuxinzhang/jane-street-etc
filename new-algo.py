@@ -189,9 +189,18 @@ def main():
     stock_list = {'BOND':3,"AAPL":2,"MSFT":3,"GOOG":2}
     xlk_dict = {}
     i = 0 
+    current_bond = 0
+    buy_price = 999
+    sell_price = 1002
     while(True):
         feed = read_from_exchange(exchange)
         print(feed)
+        buy_reply = buy(exchange,"BOND",buy_price,10)
+        if (buy_reply['type']=='ack'):
+            current_bond = current_bond+10
+        sell_reply = sell(exchange,"BOND",sell_price,10)
+        if (sell_reply['type']=='ack'):
+            current_bond = current_bond-10
         for name,amount in stock_list.items():
             if (get_highest_bid_for(feed,name,amount,"buy")!=None):
                 bid_dict[name]=get_highest_bid_for(feed,name,amount,"buy")
