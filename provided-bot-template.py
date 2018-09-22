@@ -1,3 +1,4 @@
+        print(read_from_exchange)
 #!/usr/bin/python
 
 # ~~~~~==============   HOW TO RUN   ==============~~~~~
@@ -17,7 +18,7 @@ import time
 team_name="xiaokeai"
 # This variable dictates whether or not the bot is connecting to the prod
 # or test exchange. Be careful with this switch!
-test_mode = False
+test_mode = True
 
 # This setting changes which test exchange is connected to.
 # 0 is prod-like
@@ -49,7 +50,7 @@ def buy(exchange, symbol, price, size):
     buy_res = read_from_exchange(exchange)
     if buy_res['type']=="ack":
         print("buy order acknowledged.")
-	#bond_amount = bond_amount + size
+    #bond_amount = bond_amount + size
     time.sleep(1)
     return buy_res
 
@@ -60,7 +61,7 @@ def sell(exchange, symbol, price, size):
     sell_res = read_from_exchange(exchange)
     if sell_res['type']=="ack":
         print("sell order acknowledged.")
-	#bond_amount = bond_amount - size
+    #bond_amount = bond_amount - size
     time.sleep(1)
     return sell_res
 
@@ -75,20 +76,19 @@ def main():
     hello_from_exchange = read_from_exchange(exchange)
     print("The exchange replied:", hello_from_exchange, file=sys.stderr)
     while(True):
-        print(read_from_exchange)
- #        buy_reply = buy(exchange,"BOND",buy_price,10)
-	# if (buy_reply['type']=='ack'):
-	# 	current_bond = current_bond+10
- #        sell_reply = sell(exchange,"BOND",sell_price,10)
- #        if (sell_reply['type']=='ack'):
- #                current_bond = current_bond-10
-	# print('current bond=' + str(current_bond))
-	# if current_bond <= -50:
-	# 	buy_price = buy_price + 2
-	# 	sell_price = sell_price + 2
-	# if current_bond >= 50:
-	# 	buy_price =  buy_price - 2
-	# 	sell_price = sell_price - 2 
+        buy_reply = buy(exchange,"BOND",buy_price,10)
+    if (buy_reply['type']=='ack'):
+        current_bond = current_bond+10
+        sell_reply = sell(exchange,"BOND",sell_price,10)
+        if (sell_reply['type']=='ack'):
+                current_bond = current_bond-10
+    print('current bond=' + str(current_bond))
+    if current_bond <= -50:
+        buy_price = buy_price + 2
+        sell_price = sell_price + 2
+    if current_bond >= 50:
+        buy_price =  buy_price - 2
+        sell_price = sell_price - 2 
     # A common mistake people make is to call write_to_exchange() > 1
     # time for every read_from_exchange() response.
     # Since many write messages generate marketdata, this will cause an
