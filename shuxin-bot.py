@@ -82,22 +82,21 @@ def get_running_avg(feed,symbol,direction):
 def get_max(feed,symbol,direction):
     maxV = 0
     if (feed['type']=='book'):
-        print(feed)
+#        print(feed)
         if (feed['symbol']==symbol):
             
             for trade in feed[direction]:
-                if trade[0] > max:
+                if trade[0] > maxV:
                     maxV = trade[0]
     return maxV
 
 def get_min(feed,symbol,direction):
     minV = 10000000000
     if (feed['type']=='book'):
-        print(feed)
-        if (feed['symbol']==symbol):
-            
+ #       print(feed)
+        if (feed['symbol']==symbol):          
             for trade in feed[direction]:
-                if trade[0] < min:
+                if trade[0] > minV:
                     minV = trade[0]
     return minV
 
@@ -113,10 +112,9 @@ def main():
     write_to_exchange(exchange, {"type": "hello", "team": team_name.upper()})
     hello_from_exchange = read_from_exchange(exchange)
     print("The exchange replied:", hello_from_exchange, file=sys.stderr)
-    '''
     while(True):
-        feed = read_from_exchange()
-        feed = json.loads(feed)
+        feed = read_from_exchange(exchange)
+#        feed = json.loads(feed)
         bz_buy_max = get_max(feed,'BABZ',"buy")
         bz_sell_min = get_min(feed,'BABZ',"sell")
         ba_buy_max = get_max(feed,'BABA',"buy")
@@ -134,15 +132,14 @@ def main():
             buy(exchange,"BABA",baba_sell_min+1,1)
             timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
             write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"BABZ","dir":"BUY","size":1})
-            print("Conversion:"+read_from_exchange(exchange))
+            print("Conversion:"+str(read_from_exchange(exchange)))
             sell(exchange,"BABZ",babz_buy_max-1,1)
         if (baba_buy_max > babz_sell_min + 12):
             buy(exchange,"BABZ",babz_sell_min+1,1)
             timeid = str(datetime.datetime.now()).split(" ")[1].replace(":","").split(".")[0]
             write_to_exchange(exchange, {"type": "convert", "order_id":int(timeid),"symbol":"BABA","dir":"BUY","size":1})
-            print("Conversion:"+read_from_exchange(exchange))
+            print("Conversion:"+str(read_from_exchange(exchange)))
             sell(exchange,"BABZ",baba_buy_max-1,1)
-    '''
 
 if __name__ == "__main__":
     main()
