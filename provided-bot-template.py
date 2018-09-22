@@ -1,4 +1,3 @@
-        print(read_from_exchange)
 #!/usr/bin/python
 
 # ~~~~~==============   HOW TO RUN   ==============~~~~~

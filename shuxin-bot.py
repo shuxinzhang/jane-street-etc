@@ -68,13 +68,16 @@ def sell(exchange, symbol, price, size):
 def get_running_avg(feed,symbol,direction):
     runnig_avg = 0
     if (feed['type']=='book'):
+	print(feed)
         if (feed['symbol']==symbol):
             amt_sum = 0
             total = 0
             for trade in feed[direction]:
                 amt_sum = trade[1] + amt_sum
-                total = trade[1] * trade[0]
-            runnig_avg = total * 1.0/amt_sum
+                total = total + trade[1] * trade[0]
+	    if amt_sum == 0:
+		return 0
+	    runnig_avg = total * 1.0/amt_sum
     return runnig_avg
 
 def main():
@@ -103,13 +106,15 @@ def main():
         if (ba_buy_avg != 0):
             baba_buy_avg = ba_buy_avg
         if (ba_sell_avg != 0):
-            babz_sell_avg = ba_sell_avg
+            baba_sell_avg = ba_sell_avg
+	print('zb,zs,ab,as',babz_buy_avg,babz_sell_avg,baba_buy_avg,baba_sell_avg)
+
         if (babz_sell_avg < baba_sell_avg):
-            sell(exchange,"BABA",baba_buy_avg,1)
+            buy(exchange,"BABA",babz_sell_avg,1)
         # if (babz_sell_avg > baba_sell_avg):
         #     buy(exchange,"BABA",babz_sell_avg,1)
         if (babz_buy_avg > baba_buy_avg):
-            buy(exchange,"BABA",baba_sell_avg,1)
+            sell(exchange,"BABA",babz_buy_avg,1)
         # if (babz_buy_avg > baba_buy_avg):
         #     sell(exchange,"BABA",babz_buy_avg,1)
  #        buy_reply = buy(exchange,"BOND",buy_price,10)
