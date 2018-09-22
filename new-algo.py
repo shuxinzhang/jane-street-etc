@@ -23,7 +23,7 @@ test_mode = True
 # 0 is prod-like
 # 1 is slower
 # 2 is empty
-test_exchange_index=1
+test_exchange_index=0
 prod_exchange_hostname="production"
 port=25000 + (test_exchange_index if test_mode else 0)
 exchange_hostname = "test-exch-" + team_name if test_mode else prod_exchange_hostname
@@ -204,7 +204,7 @@ def main():
             xlk_dict['offer']=get_lowest_offer_for(feed,"XLK",10,"sell")
         print("dictionaries = ", str(bid_dict),str(offer_dict),str(xlk_dict))
         i = i + 1;
-        if (i > 100):
+        if (i > 0):
             dm = bid_dict
             dl = offer_dict
             dm_total = 0
