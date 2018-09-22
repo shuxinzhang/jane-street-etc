@@ -1,4 +1,3 @@
-        print(read_from_exchange)
 #!/usr/bin/python
 
 # ~~~~~==============   HOW TO RUN   ==============~~~~~
@@ -88,16 +87,17 @@ def main():
     print("The exchange replied:", hello_from_exchange, file=sys.stderr)
     while(True):
         feed = exchange.readline()
+        feed = json.loads(feed)
         babz_buy_avg = get_running_avg(feed,'BABZ',"buy")
         babz_sell_avg = get_running_avg(feed,'BABZ',"sell")
         baba_buy_avg = get_running_avg(feed,'BABA',"buy")
         baba_sell_avg = get_running_avg(feed,'BABA',"sell")
         if (babz_sell_avg < baba_sell_avg):
-            buy(exchange,"BABZ",baba_sell_avg,1)
+            sell(exchange,"BABA",baba_buy_avg,1)
         # if (babz_sell_avg > baba_sell_avg):
         #     buy(exchange,"BABA",babz_sell_avg,1)
         if (babz_buy_avg > baba_buy_avg):
-            sell(exchange,"BABZ",baba_buy_avg,1)
+            buy(exchange,"BABA",baba_sell_avg,1)
         # if (babz_buy_avg > baba_buy_avg):
         #     sell(exchange,"BABA",babz_buy_avg,1)
  #        buy_reply = buy(exchange,"BOND",buy_price,10)
