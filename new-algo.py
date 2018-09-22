@@ -196,7 +196,7 @@ def main():
         
         if (get_highest_bid_for(feed,"XLK",10,"buy")!=None):
             xlk_dict['bid']=get_highest_bid_for(feed,"XLK",10,"buy")
-        if (get_lowest_offer_for(feed,name,amount,"sell")!=None):
+        if (get_lowest_offer_for(feed,"XLK",10,"sell")!=None):
             xlk_dict['offer']=get_lowest_offer_for(feed,"XLK",10,"sell")
         print("dictionaries = ", str(bid_dict),str(offer_dict),str(xlk_dict))
 #        feed = json.loads(feed)
