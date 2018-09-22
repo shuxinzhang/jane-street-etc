@@ -68,7 +68,7 @@ def sell(exchange, symbol, price, size):
 def get_running_avg(feed,symbol,direction):
     runnig_avg = 0
     if (feed['type']=='book'):
-	print(feed)
+	    print(feed)
         if (feed['symbol']==symbol):
             amt_sum = 0
             total = 0
@@ -115,8 +115,8 @@ def main():
     hello_from_exchange = read_from_exchange(exchange)
     print("The exchange replied:", hello_from_exchange, file=sys.stderr)
     while(True):
-        feed = exchange.readline()
-        feed = json.loads(feed)
+        feed = read_from_exchange()
+       # feed = json.loads(feed)
         bz_buy_max = get_max(feed,'BABZ',"buy")
         bz_sell_min = get_min(feed,'BABZ',"sell")
         ba_buy_max = get_max(feed,'BABA',"buy")
