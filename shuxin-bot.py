@@ -66,6 +66,17 @@ def sell(exchange, symbol, price, size):
     return sell_res
 
 # ~~~~~============== MAIN LOOP ==============~~~~~
+def get_running_avg(feed,symbol,direction):
+    runnig_avg = 0
+    if (feed['type']=='book'):
+        if (feed['symbol']==symbol):
+            amt_sum = 0
+            total = 0
+            for trade in feed[direction]:
+                amt_sum = trade[1] + amt_sum
+                total = trade[1] * trade[0]
+            runnig_avg = total * 1.0/amt_sum
+    return runnig_avg
 
 def main():
     current_bond = 0
@@ -76,7 +87,19 @@ def main():
     hello_from_exchange = read_from_exchange(exchange)
     print("The exchange replied:", hello_from_exchange, file=sys.stderr)
     while(True):
-        print(read_from_exchange(hello_from_exchange))
+        feed = exchange.readline()
+        babz_buy_avg = get_running_avg(feed,'BABZ',"buy")
+        babz_sell_avg = get_running_avg(feed,'BABZ',"sell")
+        baba_buy_avg = get_running_avg(feed,'BABA',"buy")
+        baba_sell_avg = get_running_avg(feed,'BABA',"sell")
+        if (babz_sell_avg < baba_sell_avg):
+            buy(exchange,"BABZ",baba_sell_avg,1)
+        # if (babz_sell_avg > baba_sell_avg):
+        #     buy(exchange,"BABA",babz_sell_avg,1)
+        if (babz_buy_avg > baba_buy_avg):
+            sell(exchange,"BABZ",baba_buy_avg,1)
+        # if (babz_buy_avg > baba_buy_avg):
+        #     sell(exchange,"BABA",babz_buy_avg,1)
  #        buy_reply = buy(exchange,"BOND",buy_price,10)
 	# if (buy_reply['type']=='ack'):
 	# 	current_bond = current_bond+10
