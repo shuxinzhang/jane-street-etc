@@ -204,7 +204,7 @@ def main():
             xlk_dict['offer']=get_lowest_offer_for(feed,"XLK",10,"sell")
         print("dictionaries = ", str(bid_dict),str(offer_dict),str(xlk_dict))
         i = i + 1;
-        sleep(1)
+        time.sleep(1)
         if (i > 500):
             dm = bid_dict
             dl = offer_dict
