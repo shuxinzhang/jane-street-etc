@@ -135,13 +135,16 @@ def get_highest_bid_for(feed,symbol,amount,direction):
  #       print(feed)
         total_price = 0
         total_amount = 0
-        if (feed['symbol']==symbol):          
+        if (feed['symbol']==symbol):  
+            if (symbol == "XLK"):
+                print("XLK PROCESSING!")        
             all_trades = feed[direction]
             all_trades.sort(reverse=True,key=lambda offer:offer[0])
             i = 0
             remaining_amount = amount
             while remaining_amount > 0 and i < len(all_trades):
                 temp = amount - all_trades[i][1]
+                print("REMAINING="+remaining_amount)
                 if (temp < 0):
                     total_price = total_price + all_trades[i][0] * remaining_amount
                     total_amount = total_amount + remaining_amount
