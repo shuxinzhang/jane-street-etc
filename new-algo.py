@@ -140,7 +140,7 @@ def get_highest_bid_for(feed,symbol,amount,direction):
             all_trades.sort(reverse=True,key=lambda offer:offer[0])
         i = 0
         remaining_amount = amount
-        while remaining_amount > 0 && i < len(all_trades):
+        while remaining_amount > 0 and i < len(all_trades):
             temp = amount - all_trades[i][1]
             if (temp < 0):
                 total_price = total_price + all_trades[i][0] * remaining_amount
