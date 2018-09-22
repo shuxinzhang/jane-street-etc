@@ -23,7 +23,7 @@ test_mode = True
 # 0 is prod-like
 # 1 is slower
 # 2 is empty
-test_exchange_index=0
+test_exchange_index=1
 prod_exchange_hostname="production"
 port=25000 + (test_exchange_index if test_mode else 0)
 exchange_hostname = "test-exch-" + team_name if test_mode else prod_exchange_hostname
@@ -158,17 +158,12 @@ def get_highest_bid_for(feed,symbol,amount,direction):
         else:
             return (total_price * 1.0/total_amount,dm)
 
-def price_for_a_unit_for_4(feed):
+def price_for_a_unit_for_4(feed,stock_amt):
     stock_list = {'BOND':3,"AAPL":2,"MSFT":3,"GOOG":2}
-    stock_amt = {}
     for key,value in stock_list.items():
-        if (get_highest_bid_for(feed,name,amount,"BUY")[0]==0):
-            return None
-        else:
+        if (get_highest_bid_for(feed,name,amount,"BUY")!=None):
             stock_amt[name]['bid']=get_highest_bid_for(feed,name,amount,"BUY")
-        if (get_lowest_offer_for(feed,name,amount,"SELL")[0]==0):
-            return None
-        else:
+        if (get_lowest_offer_for(feed,name,amount,"SELL")!=None):
             stock_amt[name]['offer']=get_lowest_offer_for(feed,name,amount,"SELL")
 
 
